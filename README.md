@@ -3,7 +3,7 @@
 This project contains the smart contracts, deployments scripts, unit tests and utils for the blockchain infrastructure.
 
 ## Architecture
-![Wiiqare Blockchain Architecture](resources/wiiqare_architcture.png)
+![Wiiqare Blockchain Architecture](resources/wiiqare_architecture.png)
 ## How to run?
 On root run:
 1. To install all dependencies  ``` npm i ```
