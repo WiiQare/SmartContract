@@ -1,13 +1,13 @@
-# Sample Hardhat Project
+# Wiiqare Smart Contract
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This project contains the smart contracts, deployments scripts, unit tests and utils for the blockchain infrastructure.
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+## Architecture
+![Wiiqare Blockchain Architecture](resources/wiiqare_architcture.png)
+## How to run?
+On root run:
+1. To install all dependencies  ``` npm i ```
+2. To start a local node: ``` npx hardhat node ```
+3. To compile the smart contracts: ``` npx hardhat compile ```
+4. To execute the unit tests: ```npx hardhat test```
+3. To deploy a smart contract ```npx hardhat run --network localhost scripts/deployWiiQareVoucherV1.ts``` (change the network option for deploying on testnet to mumbai or mainnet polygon)
