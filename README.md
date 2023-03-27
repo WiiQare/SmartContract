@@ -10,4 +10,4 @@ On root run:
 2. To start a local node: ``` npx hardhat node ```
 3. To compile the smart contracts: ``` npx hardhat compile ```
 4. To execute the unit tests: ```npx hardhat test```
-3. To deploy a smart contract ```npx hardhat run --network localhost scripts/deployWiiQareVoucherV1.ts``` (change the network option for deploying on testnet to mumbai or mainnet polygon)
+5. To deploy a smart contract ```npx hardhat run --network localhost scripts/deployWiiQareVoucherV1.ts``` (change the network option for deploying on testnet to mumbai or mainnet polygon)
