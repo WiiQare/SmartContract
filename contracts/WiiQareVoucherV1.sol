@@ -69,9 +69,9 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
         whenNotPaused
     {
         require(voucher.value > 0, "Value of voucher must be greater than 0");
-        _incrementVoucherID();
         vouchers[_voucherID] = voucher;
         _safeMint(msg.sender, _voucherID);
+        _incrementVoucherID();
         emit mintVoucherEvent(_voucherID, voucher);
     }
 
