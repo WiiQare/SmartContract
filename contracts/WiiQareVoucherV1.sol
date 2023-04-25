@@ -63,16 +63,14 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * Allows the contract owner to mint a voucher when the contract is not paused
      * @param voucher new voucher metadata
      */
-    function mintVoucher(Voucher memory voucher)
-        public
-        onlyOwner
-        whenNotPaused
-    {
+    function mintVoucher(
+        Voucher memory voucher
+    ) public onlyOwner whenNotPaused {
         require(voucher.value > 0, "Value of voucher must be greater than 0");
         vouchers[_voucherID] = voucher;
         _safeMint(msg.sender, _voucherID);
-        _incrementVoucherID();
         emit mintVoucherEvent(_voucherID, voucher);
+        _incrementVoucherID();
     }
 
     /**
@@ -80,11 +78,10 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * @param voucherID id of the target voucher
      * @param ownerID new owner for the target voucher
      */
-    function transferVoucher(uint256 voucherID, string memory ownerID)
-        public
-        whenNotPaused
-        onlyOwner
-    {
+    function transferVoucher(
+        uint256 voucherID,
+        string memory ownerID
+    ) public whenNotPaused onlyOwner {
         vouchers[voucherID].ownerID = ownerID;
         emit transferVoucherEvent(voucherID, ownerID);
     }
@@ -94,11 +91,10 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * @param voucherID id of the target voucher
      * @param voucher new voucher data
      */
-    function alterVoucher(uint256 voucherID, Voucher memory voucher)
-        public
-        whenNotPaused
-        onlyOwner
-    {
+    function alterVoucher(
+        uint256 voucherID,
+        Voucher memory voucher
+    ) public whenNotPaused onlyOwner {
         vouchers[voucherID] = voucher;
         emit alterVoucherEvent(voucherID, voucher);
     }
@@ -131,12 +127,9 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * Allows the contract owner to destroy a voucher when the contract is not paused
      * @param voucherID id of the target voucher
      */
-    function _burn(uint256 voucherID)
-        internal
-        override(ERC721)
-        whenNotPaused
-        onlyOwner
-    {
+    function _burn(
+        uint256 voucherID
+    ) internal override(ERC721) whenNotPaused onlyOwner {
         delete vouchers[voucherID];
         super._burn(voucherID);
         emit burnVoucher(voucherID);
@@ -159,7 +152,7 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * Returns the last voucher ID that has been minted
      * @return uint
      */
-    function _currentVoucherID() internal view returns (uint256) {
+    function getCurrentVoucherID() public view returns (uint256) {
         return _voucherID;
     }
 
