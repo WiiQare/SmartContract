@@ -3,9 +3,18 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
-    "hardhat": "^2.13.0"
+    "codecov": "^3.8.3",
+    "hardhat": "^2.13.0",
+    "solidity-coverage": "^0.8.2"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.2"
+  },
+  "scripts": {
+    "dev": "hardhat node",
+    "deploy": "hardhat run scripts/deployWiiQareVoucherV1.ts --network localhost",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage && codecov"
   }
 }
