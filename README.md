@@ -16,4 +16,12 @@ On root run:
 2. To start a local node: `npm run dev`
 3. To compile the smart contracts: `npm run compile`
 4. To execute the unit tests: `npm run test`
-5. To deploy a smart contract `npx hardhat run --network localhost scripts/deployWiiQareVoucherV1.ts` (change the network option for deploying on testnet to mumbai or mainnet polygon)
+5. To deploy the voucher smart contract: `npx hardhat run --network localhost scripts/deployWiiQareVoucherV1.ts` (change the network option for deploying on testnet to mumbai or mainnet polygon)
+
+## FAQ
+
+1. Q: Why the voucher smart contract is not upgradable.
+   A: We want to provide trust to our users.
+2. Q: Why isn't the solution fully decentralize.
+   A: We had to make some compromises until users will know how to properly use a wallet. Because we are dealing with providing methods for the users to pay
+   for their healthcare services, ease of use and speed were our top concerns and we chose to put decentralization on the second place.
