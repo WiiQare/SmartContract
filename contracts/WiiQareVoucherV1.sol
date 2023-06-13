@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "./WiiQareSharedStructs.sol";
 
 contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
     //=============================================================================
@@ -32,21 +33,21 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
     //=============================================================================
     //                              Mappings
     //=============================================================================
-    mapping(uint256 => Voucher) public vouchers;
+    mapping(uint256 => SharedStructs.Voucher) public vouchers;
 
     //=============================================================================
 
     //=============================================================================
     //                              Events
     //=============================================================================
-    event mintVoucherEvent(uint256 voucherID, Voucher nftVoucer);
+    event mintVoucherEvent(uint256 voucherID, SharedStructs.Voucher nftVoucer);
     event transferVoucherEvent(uint256 voucherID, string ownerID);
     event splitVoucherEvent(
         uint256 voucherID,
-        Voucher firstVoucher,
-        Voucher secondVoucher
+        SharedStructs.Voucher firstVoucher,
+        SharedStructs.Voucher secondVoucher
     );
-    event alterVoucherEvent(uint256 voucherID, Voucher voucher);
+    event alterVoucherEvent(uint256 voucherID, SharedStructs.Voucher voucher);
     event burnVoucher(uint256 voucherID);
 
     //=============================================================================
@@ -64,7 +65,7 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * @param voucher new voucher metadata
      */
     function mintVoucher(
-        Voucher memory voucher
+        SharedStructs.Voucher memory voucher
     ) public onlyOwner whenNotPaused {
         require(voucher.value > 0, "Value of voucher must be greater than 0");
         vouchers[_voucherID] = voucher;
@@ -93,7 +94,7 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      */
     function alterVoucher(
         uint256 voucherID,
-        Voucher memory voucher
+        SharedStructs.Voucher memory voucher
     ) public whenNotPaused onlyOwner {
         vouchers[voucherID] = voucher;
         emit alterVoucherEvent(voucherID, voucher);
@@ -107,8 +108,8 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      */
     function splitVoucher(
         uint256 voucherID,
-        Voucher memory firstVoucher,
-        Voucher memory secondVoucher
+        SharedStructs.Voucher memory firstVoucher,
+        SharedStructs.Voucher memory secondVoucher
     ) public whenNotPaused onlyOwner {
         require(firstVoucher.value > 0, "Invalid value for voucher 1");
         require(secondVoucher.value > 0, "Invalid value for voucher 2");
@@ -139,8 +140,8 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * Returns all the minted vouchers
      * @return Voucher[]
      */
-    function getAllVouchers() public view returns (Voucher[] memory) {
-        Voucher[] memory vouchersArray = new Voucher[](_voucherID);
+    function getAllVouchers() public view returns (SharedStructs.Voucher[] memory) {
+        SharedStructs.Voucher[] memory vouchersArray = new SharedStructs.Voucher[](_voucherID);
         require(vouchersArray.length > 0, "No vouchers have been minted!");
         for (uint256 index = 0; index < vouchersArray.length; index++) {
             vouchersArray[index] = vouchers[index];
