@@ -26,8 +26,8 @@ describe("Wiiqare Voucher Contract Events", function () {
 
       const burnedVoucher = [ethers.BigNumber.from(0), "", "", "", "", ""];
 
-      const currentVoucherID = await wiiqareVoucher.getCurrentVoucherID();
       await wiiqareVoucher.mintVoucher(newVoucher);
+      const currentVoucherID = await wiiqareVoucher.getCurrentVoucherID();
       await wiiqareVoucher.burn(parseInt(currentVoucherID));
       expect(await wiiqareVoucher.vouchers(parseInt(currentVoucherID))).to.eql(
         burnedVoucher
@@ -144,9 +144,8 @@ describe("Wiiqare Voucher Contract Events", function () {
       ];
 
       const burnVoucher = [ethers.BigNumber.from(0), "", "", "", "", ""];
-      await wiiqareVoucher.mintVoucher(firstVoucher);
-      const currentVoucherID = await wiiqareVoucher.getCurrentVoucherID();
       await wiiqareVoucher.mintVoucher(initialVoucher);
+      const currentVoucherID = await wiiqareVoucher.getCurrentVoucherID();
       await wiiqareVoucher.splitVoucher(
         parseInt(currentVoucherID),
         firstVoucher,
