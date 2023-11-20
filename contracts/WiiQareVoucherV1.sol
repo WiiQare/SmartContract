@@ -18,19 +18,6 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
     //=============================================================================
 
     //=============================================================================
-    //                              Structs
-    //=============================================================================
-    struct Voucher {
-        uint256 value;
-        string currencySymbol;
-        string ownerID;
-        string providerID;
-        string beneficiaryID;
-        string status;
-    }
-    //=============================================================================
-
-    //=============================================================================
     //                              Mappings
     //=============================================================================
     mapping(uint256 => SharedStructs.Voucher) public vouchers;
@@ -40,7 +27,7 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
     //=============================================================================
     //                              Events
     //=============================================================================
-    event mintVoucherEvent(uint256 voucherID, SharedStructs.Voucher nftVoucer);
+    event mintVoucherEvent(uint256 voucherID, SharedStructs.Voucher nftVoucher);
     event transferVoucherEvent(uint256 voucherID, string ownerID);
     event splitVoucherEvent(
         uint256 voucherID,
@@ -48,12 +35,11 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
         SharedStructs.Voucher secondVoucher
     );
     event alterVoucherEvent(uint256 voucherID, SharedStructs.Voucher voucher);
-    event burnVoucher(uint256 voucherID);
+    event burnVoucherEvent(uint256 voucherID);
 
     //=============================================================================
 
-    constructor() ERC721("WiiQareVoucherV1", "WiiQare") {
-        _voucherID = 0;
+     constructor() ERC721("WiiQareVoucherV1", "WiiQare") {
     }
 
     //=============================================================================
@@ -69,9 +55,9 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
     ) public onlyOwner whenNotPaused {
         require(voucher.value > 0, "Value of voucher must be greater than 0");
         vouchers[_voucherID] = voucher;
-        _safeMint(msg.sender, _voucherID);
         emit mintVoucherEvent(_voucherID, voucher);
         _incrementVoucherID();
+        _safeMint(msg.sender, _voucherID);
     }
 
     /**
@@ -120,7 +106,7 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
         );
         mintVoucher(firstVoucher);
         mintVoucher(secondVoucher);
-        _burn(voucherID);
+        _burnVoucher(voucherID);
         emit splitVoucherEvent(voucherID, firstVoucher, secondVoucher);
     }
 
@@ -128,20 +114,24 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * Allows the contract owner to destroy a voucher when the contract is not paused
      * @param voucherID id of the target voucher
      */
-    function _burn(
-        uint256 voucherID
-    ) internal override(ERC721) whenNotPaused onlyOwner {
+    function _burnVoucher(uint256 voucherID) internal whenNotPaused onlyOwner {
+        require(ownerOf(voucherID) != address(0), "Voucher doesn't exist!");
         delete vouchers[voucherID];
         super._burn(voucherID);
-        emit burnVoucher(voucherID);
+        emit burnVoucherEvent(voucherID);
     }
 
     /**
      * Returns all the minted vouchers
      * @return Voucher[]
      */
-    function getAllVouchers() public view returns (SharedStructs.Voucher[] memory) {
-        SharedStructs.Voucher[] memory vouchersArray = new SharedStructs.Voucher[](_voucherID);
+    function getAllVouchers()
+        public
+        view
+        returns (SharedStructs.Voucher[] memory)
+    {
+        SharedStructs.Voucher[]
+            memory vouchersArray = new SharedStructs.Voucher[](_voucherID);
         require(vouchersArray.length > 0, "No vouchers have been minted!");
         for (uint256 index = 0; index < vouchersArray.length; index++) {
             vouchersArray[index] = vouchers[index];
@@ -164,24 +154,6 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
         unchecked {
             _voucherID += 1;
         }
-    }
-
-    /**
-     * Substracts 1 from the voucherID
-     */
-    function _decrementVoucherID() internal {
-        uint256 value = _voucherID;
-        require(value > 0, "Counter: decrement overflow");
-        unchecked {
-            _voucherID = _voucherID - 1;
-        }
-    }
-
-    /**
-     * Sets the voucherID to 0
-     */
-    function _resetVoucherID() internal onlyOwner {
-        _voucherID = 0;
     }
 
     /**
