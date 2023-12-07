@@ -25,3 +25,5 @@ On root run:
 2. Q: Why isn't the solution fully decentralize.
    A: We had to make some compromises until users will know how to properly use a wallet. Because we are dealing with providing methods for the users to pay
    for their healthcare services, ease of use and speed were our top concerns and we chose to put decentralization on the second place.
+
+Code assessment on the [Voucher smart contract](https://github.com/WiiQare/SmartContract/blob/main/contracts/WiiQareVoucherV1.sol) was performed by [Brainbot](https://brainbot.com/smart-contract-audits/) and the results can be found in the [report](https://github.com/brainbot-com/audit-wiiqare-1/issues). Fixes for the issues have been provided in [Voucher contract audit fixes #6](https://github.com/WiiQare/SmartContract/pull/6/files). 
