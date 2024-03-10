@@ -3,11 +3,10 @@
 //                       WiiQare NFT Voucher smart contract
 //=============================================================================
 pragma solidity ^0.8.9;
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 import "./WiiQareSharedStructs.sol";
 
 contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
@@ -39,8 +38,10 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
 
     //=============================================================================
 
-     constructor() ERC721("WiiQareVoucherV1", "WiiQare") {
-    }
+     constructor(address initialOwner)
+        ERC721("WiiQareVoucherV1", "WiiQare")
+        Ownable(initialOwner)
+    {}
 
     //=============================================================================
     //                              Functions
@@ -50,9 +51,11 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * Allows the contract owner to mint a voucher when the contract is not paused
      * @param voucher new voucher metadata
      */
-    function mintVoucher(
-        SharedStructs.Voucher memory voucher
-    ) public onlyOwner whenNotPaused {
+    function mintVoucher(SharedStructs.Voucher memory voucher)
+        public
+        onlyOwner
+        whenNotPaused
+    {
         require(voucher.value > 0, "Value of voucher must be greater than 0");
         vouchers[_voucherID] = voucher;
         emit mintVoucherEvent(_voucherID, voucher);
@@ -65,10 +68,11 @@ contract WiiQareVoucherV1 is ERC721, Pausable, Ownable, ERC721Burnable {
      * @param voucherID id of the target voucher
      * @param ownerID new owner for the target voucher
      */
-    function transferVoucher(
-        uint256 voucherID,
-        string memory ownerID
-    ) public whenNotPaused onlyOwner {
+    function transferVoucher(uint256 voucherID, string memory ownerID)
+        public
+        whenNotPaused
+        onlyOwner
+    {
         vouchers[voucherID].ownerID = ownerID;
         emit transferVoucherEvent(voucherID, ownerID);
     }

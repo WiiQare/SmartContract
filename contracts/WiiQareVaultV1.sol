@@ -4,7 +4,7 @@
 //=============================================================================
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./WiiQareVoucherV1.sol";
@@ -46,8 +46,7 @@ contract WiiQareVault is Pausable, Ownable {
     mapping(address => uint256) private _tokenBalances;
 
     //=============================================================================
-
-    constructor() {
+    constructor(address initialOwner) Ownable(initialOwner) {
         voucherContract = WiiQareVoucherV1(_voucherAddress);
     }
 
@@ -98,19 +97,15 @@ contract WiiQareVault is Pausable, Ownable {
         userVaults[userReference][tokenVault].tokenBalance -= ammount;
     }
 
-    function addStableToken(address tokenAddress)
-        public
-        onlyOwner
-        whenNotPaused
-    {
+    function addStableToken(
+        address tokenAddress
+    ) public onlyOwner whenNotPaused {
         _stableTokens[tokenAddress] = true;
     }
 
-    function removeStableToken(address tokenAddress)
-        public
-        onlyOwner
-        whenNotPaused
-    {
+    function removeStableToken(
+        address tokenAddress
+    ) public onlyOwner whenNotPaused {
         _stableTokens[tokenAddress] = false;
     }
 
@@ -147,11 +142,10 @@ contract WiiQareVault is Pausable, Ownable {
         _unpause();
     }
 
-    function getVaultByVaultId(string memory userReference, address tokenVault)
-        public
-        view
-        returns (Vault memory)
-    {
+    function getVaultByVaultId(
+        string memory userReference,
+        address tokenVault
+    ) public view returns (Vault memory) {
         return userVaults[userReference][tokenVault];
     }
 
