@@ -207,5 +207,19 @@ describe("Wiiqare Voucher Contract Events", function () {
         .to.emit(wiiqareVoucher, "splitVoucherEvent")
         .withArgs(currentVoucherID, firstVoucher, secondVoucher);
     });
+
+    it("Should return all the minted vouchers", async function () {
+      const { wiiqareVoucher } = await loadFixture(deployContractFixture);
+
+      const mintList = [
+        [225, "USD", "wiiqare_admin", "hospitalA", "pacientA", "unclaimed"],
+        [150, "USD", "wiiqare_admin", "hospitalB", "pacientB", "unclaimed"],
+      ];
+      for (voucher of mintList) {
+        await wiiqareVoucher.mintVoucher(voucher);
+      }
+      const mintedVouchers = await wiiqareVoucher.getAllVouchers();
+      expect(mintedVouchers.length).to.equal(mintList.length);
+    });
   });
 });
